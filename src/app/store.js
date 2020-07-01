@@ -1,10 +1,10 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { dataReducer } from '../features/home/homeSlice';
+import { configureStore } from '@reduxjs/toolkit';
+import { mechanicsReducer } from '../features/mechanics/mechanicsSlice';
 import { cardReducer } from '../features/cardSearch/cardSearchSlice';
 
 export default configureStore({
   reducer: {
-    data: dataReducer,
+    mechanics: mechanicsReducer,
     card: cardReducer,
   },
 });
