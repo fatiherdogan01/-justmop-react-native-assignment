@@ -13,19 +13,30 @@ const mechanicsSlice = createSlice({
     extraReducers: {}
 
 })
-export const fetchData = dispatch => (
-    fetch("https://omgvamp-hearthstone-v1.p.rapidapi.com/cards", {
-        "method": "GET",
-        "headers": {
-            "x-rapidapi-host": "omgvamp-hearthstone-v1.p.rapidapi.com",
-            "x-rapidapi-key": "31dbadaadbmsh93c65baee51ded1p1d1da7jsn45540e48d18f"
-        }
-    })
-        .then((res) => res.json())
-        .then((json) => dispatch(dataRequest(json)))
+export const fetchData = limit => dispatch => {
+    const reducedBuildings = []
+    try {
+        fetch("https://omgvamp-hearthstone-v1.p.rapidapi.com/cards", {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "omgvamp-hearthstone-v1.p.rapidapi.com",
+                "x-rapidapi-key": "31dbadaadbmsh93c65baee51ded1p1d1da7jsn45540e48d18f"
+            }
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                Object.keys(json).map((keys) => {
+                    json[keys].map((building) => {
+                        if (reducedBuildings.length < limit) {
+                            reducedBuildings.push(building);
+                        }
+                    })
+                })
+                dispatch(dataRequest(reducedBuildings))
+            })
+    } catch (error) { }
 
-
-)
+}
 export const { dataRequest } = mechanicsSlice.actions;
 export const mechanicsData = state => state.mechanics;
 export const mechanicsReducer = mechanicsSlice.reducer;
