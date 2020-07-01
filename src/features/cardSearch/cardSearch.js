@@ -33,8 +33,7 @@ function CardSearch() {
     return (
         <View>
             <Text style={styles.title}>Card Search</Text>
-
-            <TextInput
+       <TextInput
                 style={styles.input}
                 placeholder='Search Card'
                 onChangeText={text => onChange(text)}
@@ -65,7 +64,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         borderColor: '#ccc',
         padding: 10,
-        borderWidth: 1
+        borderWidth: 1,
+        borderRadius: 20
     },
     title: {
         fontSize: 32,
