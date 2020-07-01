@@ -14,27 +14,25 @@ function Mechanics() {
   const { data, loading } = useSelector(mechanicsData)
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(fetchData)
+    dispatch(fetchData(200))//limit:number
   }, [dispatch])
 
-  if (!loading) {
-    filterMechanics();
-  }
+
+  filterMechanics();
+
 
   function filterMechanics() {
     var temp = [];
     var arr = [];
-    Object.keys(data).map((keys) => {
-      data[keys].map((item) => {
-        if (item.mechanics) {
-          item.mechanics.map((subItem) => {
-            if (!temp.includes(subItem.name)) {
-              arr.push(subItem.name)
-            }
-            temp.push(subItem.name)
-          })
-        }
-      })
+    data.map((item) => {
+      if (item.mechanics) {
+        item.mechanics.map((subItem) => {
+          if (!temp.includes(subItem.name)) {
+            arr.push(subItem.name)
+          }
+          temp.push(subItem.name)
+        })
+      }
     })
     return arr;
   }
@@ -42,33 +40,28 @@ function Mechanics() {
     navigation.navigate("Cards", {
       name: name
     })
-
   }
   return (
-
-
-    loading ?
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
-        <ActivityIndicator size='large' />
-      </View> :
-      <ScrollView style={styles.container}>
-        <Text style={styles.title}>Mechanics</Text>
-        {
-          filterMechanics().map((name, index) => {
-            return (
-              <TouchableOpacity key={index} style={styles.item} onPress={() => onPress(name)}>
-                <Text style={styles.context}>{name}</Text>
-              </TouchableOpacity>
-            )
-          })
-        }
-
-
-      </ScrollView>
-
-
-  );
+    <>
+      {loading ?
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <ActivityIndicator size='large' />
+        </View> :
+        <ScrollView style={styles.container}>
+          <Text style={styles.title}>Mechanics</Text>
+          {
+            filterMechanics().map((name, index) => {
+              return (
+                <TouchableOpacity key={index} style={styles.item} onPress={() => onPress(name)}>
+                  <Text style={styles.context}>{name}</Text>
+                </TouchableOpacity>
+              )
+            })
+          }
+        </ScrollView>
+      }
+    </>
+  )
 };
 
 const styles = StyleSheet.create({
