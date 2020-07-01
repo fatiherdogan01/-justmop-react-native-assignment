@@ -1,31 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { View, Text, TextInput, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import {
     cardData,
-    searchCard
+    searchCard,
+    dataRequest
 } from './cardSearchSlice'
 
 function CardSearch() {
     const navigation = useNavigation();
     const { card, loading, error } = useSelector(cardData)
     const dispatch = useDispatch()
-    const [input, setInput] = useState('')
+    const [input, setInput] = useState(null)
 
     function onChange(text) {
-        if (text !== '') {
-            dispatch(searchCard(text))
+        dispatch(dataRequest())
+        if (text) {
+            setTimeout(() => {
+                dispatch(searchCard(text, 5))//cardName:string result:number
+            }, 100)
         }
         setInput(text)
 
     }
-   function onPress(item){
-      navigation.navigate('CardDetail',{
-          item:item
-      })
-   }
-    
+    function onPress(item) {
+        navigation.navigate('CardDetail', {
+            item: item
+        })
+    }
+
     return (
         <View>
             <Text style={styles.title}>Card Search</Text>
@@ -36,21 +40,20 @@ function CardSearch() {
                 onChangeText={text => onChange(text)}
                 value={input}
             />
-             {loading && <ActivityIndicator size='large' />} 
-            {error ? <Text>Card not found.</Text>:
-            <ScrollView>
-                {card.map((item, index) => {
-                    return (
+            {loading && <ActivityIndicator size='large' />}
+            {error ? <Text style={{ color: 'red', textAlign: 'center' }}>Card not found.</Text> :
+                <ScrollView>
+                    {card.map((item, index) => {
+                        return (
+                            <TouchableOpacity key={index} style={styles.item} onPress={() => onPress(item, index)}>
+                                <Text style={styles.context}>{item.name}</Text>
+                            </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.item} onPress={() => onPress(item, index)}>
-                            <Text style={styles.context}>{item.name}</Text>
-                        </TouchableOpacity>
-
-                    )
-                })
-                }
-            </ScrollView>
-}
+                        )
+                    })
+                    }
+                </ScrollView>
+            }
 
         </View>
     )
