@@ -7,14 +7,14 @@ import FastImage from 'react-native-fast-image'
 function Card({ item, index }) {
     return (
         <CardFlip key={index} style={styles.cardContainer} ref={(card) => this['card' + index] = card} >
-            <TouchableOpacity key={index} style={styles.card} onPress={() => this['card' + index].flip()} >
+            <TouchableOpacity style={styles.card} onPress={() => this['card' + index].flip()} >
                 <FastImage
                     style={styles.image}
                     source={{ uri: item.img, priority: FastImage.priority.high }}
                     resizeMode={FastImage.resizeMode.contain}
                 />
             </TouchableOpacity>
-            <TouchableOpacity key={index} style={styles.cardBack} onPress={() => this['card' + index].flip()} >
+            <TouchableOpacity style={styles.cardBack} onPress={() => this['card' + index].flip()} >
                 <FastImage
                     style={styles.imageBack}
                     source={{ uri: item.img, priority: FastImage.priority.high }}
