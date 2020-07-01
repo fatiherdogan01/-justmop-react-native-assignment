@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import { API_HOST, API_URL, API_KEY } from '../../utils/Constants'
 const mechanicsSlice = createSlice({
     name: 'mechanics',
     initialState: { data: [], loading: true },
@@ -16,11 +16,11 @@ const mechanicsSlice = createSlice({
 export const fetchData = limit => dispatch => {
     const reducedBuildings = []
     try {
-        fetch("https://omgvamp-hearthstone-v1.p.rapidapi.com/cards", {
+        fetch(`${API_URL}`, {
             "method": "GET",
             "headers": {
-                "x-rapidapi-host": "omgvamp-hearthstone-v1.p.rapidapi.com",
-                "x-rapidapi-key": "31dbadaadbmsh93c65baee51ded1p1d1da7jsn45540e48d18f"
+                "x-rapidapi-host": `${API_HOST}`,
+                "x-rapidapi-key": `${API_KEY}`
             }
         })
             .then((res) => res.json())
